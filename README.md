@@ -11,6 +11,9 @@ All numerics datas like floor space come unit-less.
 Datas like bed size or room type are char(1) in order to use "c" for "chambre" or "s" for "suite", for example. 
 
 
+Limitations : If a service is available for all rooms, you still  need an entry for each room
+
+
 # Changes between the UML and the .sql : 
 
 
@@ -19,6 +22,10 @@ Added a comment field for reservations
 Changed address system. 
 
 Added countries table
+
+Changed roost_room_status for resst_reservation status
+
+
 # Naming convention :
 
 Tables begins by its shortname,often composed of a few first letters, then followed by the full name of it.
