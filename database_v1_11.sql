@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 05, 2018 at 12:29 PM
+-- Generation Time: Jun 05, 2018 at 02:23 PM
 -- Server version: 5.7.22-0ubuntu18.04.1
 -- PHP Version: 7.2.5-0ubuntu0.18.04.1
 
@@ -74,6 +74,17 @@ CREATE TABLE `cou_countries` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `resst_reservation_status`
+--
+
+CREATE TABLE `resst_reservation_status` (
+  `resst_oid` int(11) NOT NULL,
+  `resst_description` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `res_reservations`
 --
 
@@ -83,7 +94,7 @@ CREATE TABLE `res_reservations` (
   `fk_res_roo` int(11) NOT NULL,
   `res_arrival_date` date NOT NULL,
   `res_leaving_date` date NOT NULL,
-  `fk_res_roost` int(11) NOT NULL,
+  `fk_res_resst` int(11) NOT NULL,
   `res_comment` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -97,17 +108,6 @@ CREATE TABLE `res_reservation_has_ser_services` (
   `res_oid` int(11) NOT NULL,
   `ser_oid` int(11) NOT NULL,
   `res_ser_times_ordered` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `roost_room_status`
---
-
-CREATE TABLE `roost_room_status` (
-  `roost_oid` int(11) NOT NULL,
-  `roost_status` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -215,13 +215,19 @@ ALTER TABLE `cou_countries`
   ADD UNIQUE KEY `cou_name` (`cou_name`);
 
 --
+-- Indexes for table `resst_reservation_status`
+--
+ALTER TABLE `resst_reservation_status`
+  ADD PRIMARY KEY (`resst_oid`);
+
+--
 -- Indexes for table `res_reservations`
 --
 ALTER TABLE `res_reservations`
   ADD PRIMARY KEY (`res_oid`),
   ADD KEY `fk_res_reservation_cli_clients1_idx` (`fk_res_cli`),
   ADD KEY `fk_res_reservation_chambre1_idx` (`fk_res_roo`),
-  ADD KEY `fk_res_reservations_roost_room_status1_idx` (`fk_res_roost`);
+  ADD KEY `fk_res_reservations_resst_reservation_status` (`fk_res_resst`);
 
 --
 -- Indexes for table `res_reservation_has_ser_services`
@@ -230,13 +236,6 @@ ALTER TABLE `res_reservation_has_ser_services`
   ADD PRIMARY KEY (`res_oid`,`ser_oid`),
   ADD KEY `fk_res_reservations_has_ser_services_ser_services1_idx` (`ser_oid`),
   ADD KEY `fk_res_reservations_has_ser_services_res_reservations1_idx` (`res_oid`);
-
---
--- Indexes for table `roost_room_status`
---
-ALTER TABLE `roost_room_status`
-  ADD PRIMARY KEY (`roost_oid`),
-  ADD UNIQUE KEY `roost_status_UNIQUE` (`roost_status`);
 
 --
 -- Indexes for table `roo_rooms`
@@ -281,37 +280,37 @@ ALTER TABLE `tow_towns`
 -- AUTO_INCREMENT for table `accty_account_type`
 --
 ALTER TABLE `accty_account_type`
-  MODIFY `accty_oid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `accty_oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `acc_accounts`
 --
 ALTER TABLE `acc_accounts`
-  MODIFY `acc_oid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `acc_oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `cli_clients`
 --
 ALTER TABLE `cli_clients`
-  MODIFY `cli_oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cli_oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `cou_countries`
 --
 ALTER TABLE `cou_countries`
   MODIFY `cou_oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
+-- AUTO_INCREMENT for table `resst_reservation_status`
+--
+ALTER TABLE `resst_reservation_status`
+  MODIFY `resst_oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
 -- AUTO_INCREMENT for table `res_reservations`
 --
 ALTER TABLE `res_reservations`
-  MODIFY `res_oid` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `roost_room_status`
---
-ALTER TABLE `roost_room_status`
-  MODIFY `roost_oid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `res_oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `roo_rooms`
 --
 ALTER TABLE `roo_rooms`
-  MODIFY `roo_oid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `roo_oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `sercat_service_category`
 --
@@ -350,7 +349,7 @@ ALTER TABLE `cli_clients`
 ALTER TABLE `res_reservations`
   ADD CONSTRAINT `fk_res_reservation_chambre1` FOREIGN KEY (`fk_res_roo`) REFERENCES `roo_rooms` (`roo_oid`),
   ADD CONSTRAINT `fk_res_reservation_cli_clients1` FOREIGN KEY (`fk_res_cli`) REFERENCES `cli_clients` (`cli_oid`),
-  ADD CONSTRAINT `fk_res_reservations_roost_room_status1` FOREIGN KEY (`fk_res_roost`) REFERENCES `roost_room_status` (`roost_oid`);
+  ADD CONSTRAINT `fk_res_reservations_resst_reservation_status` FOREIGN KEY (`fk_res_resst`) REFERENCES `resst_reservation_status` (`resst_oid`);
 
 --
 -- Constraints for table `res_reservation_has_ser_services`
