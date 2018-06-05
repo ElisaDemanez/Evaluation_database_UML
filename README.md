@@ -11,6 +11,10 @@ All numerics datas like floor space come unit-less.
 Datas like bed size or room type are char(1) in order to use "c" for "chambre" or "s" for "suite", for example. 
 
 
+# Changes between the UML and the .sql : 
+
+Dropped acc_account_type, and added acc_type in acc_account with an ENUM type
+
 # Naming convention :
 
 Tables begins by its shortname,often composed of a few first letters, then followed by the full name of it.
