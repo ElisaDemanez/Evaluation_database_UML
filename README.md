@@ -16,6 +16,8 @@ Datas like bed size or room type are char(1) in order to use "c" for "chambre" o
 
 Added a comment field for reservations
 
+Changed address system. 
+
 Added countries table
 # Naming convention :
 
